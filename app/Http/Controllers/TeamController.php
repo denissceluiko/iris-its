@@ -50,4 +50,27 @@ class TeamController extends Controller
             ]),
         ]);
     }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function optionHelp(Request $request)
+    {
+        return response()->json([
+            'response_type' => 'in_channel',
+            'text' => <<<EOT
+Use `/team` with following options:
+
+| Command | Usage             |
+| :------ | :---------------- |
+| help    | Show this message |
+| dump    | Dumps request data |
+
+For example `/team help` displays this message.
+EOT
+            ,
+        ]);
+    }
 }

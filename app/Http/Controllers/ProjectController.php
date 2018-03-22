@@ -25,4 +25,26 @@ class ProjectController extends Controller
         }
         return $this->optionHelp($request);
     }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function optionHelp(Request $request)
+    {
+        return response()->json([
+            'response_type' => 'in_channel',
+            'text' => <<<EOT
+Use `/p` with following options:
+
+| Command | Usage             |
+| :------ | :---------------- |
+| help    | Show this message |
+
+For example `/p help` displays this message.
+EOT
+            ,
+        ]);
+    }
 }
