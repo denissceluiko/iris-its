@@ -11,6 +11,8 @@
 |
 */
 
-Route::post('/team', 'TeamController@router');
-Route::post('/pr', 'ProjectController@router');
-Route::post('/t', 'TaskController@router');
+Route::namespace('Mattermost')->group(function() {
+    Route::post('/team', 'TeamController@router');
+    Route::post('/pr', 'ProjectController@router');
+    Route::post('/t', 'TaskController@router');
+});
