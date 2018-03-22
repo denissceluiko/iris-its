@@ -35,7 +35,7 @@ class TeamController extends Controller
      */
     public function optionDump(Request $request)
     {
-        return request()->json([
+        return response()->json([
             'response_type' => 'in_channel',
             'text' => 'Requested params: '.json_encode([
                 'channel_id' => $request->channel_id,
