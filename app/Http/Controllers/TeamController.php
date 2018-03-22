@@ -10,6 +10,7 @@ class TeamController extends Controller
      * Route a user's request.
      * Handles /team [option]
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function router(Request $request)
