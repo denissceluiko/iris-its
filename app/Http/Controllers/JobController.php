@@ -90,7 +90,7 @@ class JobController extends Controller
             'response_type' => 'in_channel',
             'text' => <<<EOT
 Use `/j` with following options:
- 
+
 | Command | Usage             |
 | :------ | :---------------- |
 | help    | Show this message |
