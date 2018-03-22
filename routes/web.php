@@ -11,4 +11,6 @@
 |
 */
 
-Route::get('/j', 'JobController@router');
+Route::get('/team', 'TeamController@router');
+Route::get('/pr', 'ProjectController@router');
+Route::get('/t', 'TaskController@router');
