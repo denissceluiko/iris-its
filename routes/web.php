@@ -12,7 +12,7 @@
 */
 
 Route::namespace('Mattermost')->group(function() {
-    Route::get('/team', 'TeamController@router');
+    Route::post('/team', 'TeamController@router');
     Route::post('/pr', 'ProjectController@router');
     Route::post('/t', 'TaskController@router');
 });
