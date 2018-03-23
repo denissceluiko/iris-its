@@ -13,6 +13,7 @@ Use `/team` with following options:
 | Command | Usage             |
 | :------ | :---------------- |
 | help    | Show this message |
+| init    | Initializes ITS for the current team |
 | dump    | Dumps request data |
 
 For example `/team help` displays this message.
@@ -31,14 +32,14 @@ EOT;
 
             return response()->json([
                 'response_type' => 'ephemeral',
-                'text' => "$team->mm_domain has been initialized."
+                'text' => "Team `$team->mm_domain` has been initialized."
             ]);
         }
         else
         {
             return response()->json([
                 'response_type' => 'ephemeral',
-                'text' => "$team->mm_domain already exists."
+                'text' => "Team `$team->mm_domain` already exists."
             ]);
         }
     }
