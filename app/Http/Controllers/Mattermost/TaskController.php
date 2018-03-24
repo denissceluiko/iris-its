@@ -79,6 +79,17 @@ EOT;
 
     public function optionMy()
     {
+        $tasks = Auth::user()->tasks;
+        $res_text = <<<EOT
+        | Code | Name |
+        | :--- | :--- |
+EOT;
+
+        foreach ($tasks as $task)
+        {
+            $res_text .= "| $task->code | $task->name |
+            ";
+        }
         return response()->json([
             'response_type' => 'ephemeral',
             'text' => '',
