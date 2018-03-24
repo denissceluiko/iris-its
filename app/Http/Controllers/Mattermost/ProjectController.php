@@ -20,7 +20,7 @@ Use `/p` with following options:
 | Command | Usage             | Example |
 | :------ | :---------------- | :------ |
 | help    | Show this message | /p help
-| create  | [project_name] [project code] | /p create "Dzimšanas diena 2018" DZD |
+| new     | project_code project_name | /p new NYP New Year's party |
 
 For example `/p help` displays this message.
 EOT;
@@ -42,13 +42,13 @@ EOT;
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function optionCreate()
+    public function optionNew()
     {
         if (count($this->args) < 2)
         {
             return response()->json([
                 'response_type' => 'ephemeral',
-                'text' => 'Usage: `/p project_name project_code` E.g. `/p "New year\'s party" NYP`. \nNote: If project_name contains more than one word, enclose it in quotes (`"`).',
+                'text' => 'Usage: `/p new project_code project_name` E.g. `/p new NYP New year\'s party`.',
             ]);
         }
         $name = $this->args[0];
@@ -76,7 +76,7 @@ EOT;
 
         return response()->json([
             'response_type' => 'ephemeral',
-            'text' => "Project $name created!\nUse `/t create $code` to add a new task.",
+            'text' => "Project $name created! Use `/t new $code` to add a new task.",
         ]);
     }
 }
