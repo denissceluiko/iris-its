@@ -51,8 +51,8 @@ EOT;
                 'text' => 'Usage: `/p new project_code project_name` E.g. `/p new NYP New year\'s party`.',
             ]);
         }
-        $name = $this->args[0];
-        $code = $this->args[1];
+        $code = $this->args[0];
+        $name = $this->args[1];
 
         $project = $this->team->projects()->where('name', $name)->first();
         if ($project)
