@@ -52,7 +52,7 @@ EOT;
             ]);
         }
         $code = $this->args[0];
-        $name = $this->args[1];
+        $name = implode(' ', array_slice($this->args, 1));
 
         $project = $this->team->projects()->where('name', $name)->first();
         if ($project)
