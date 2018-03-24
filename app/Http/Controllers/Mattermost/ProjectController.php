@@ -14,16 +14,7 @@ class ProjectController extends MattermostController
      */
     protected $team;
 
-    protected $helpMessage = <<<EOT
-Use `/p` with following options:
-
-| Command | Usage             | Example |
-| :------ | :---------------- | :------ |
-| help    | Show this message | /p help
-| new     | project_code project_name | /p new NYP New Year's party |
-
-For example `/p help` displays this message.
-EOT;
+    protected $helpView = 'mattermost.task.help';
 
     /**
      * ProjectController constructor.

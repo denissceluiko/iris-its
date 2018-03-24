@@ -13,16 +13,7 @@ class TaskController extends MattermostController
      */
     protected $team;
 
-    protected $helpMessage = <<<EOT
-Use `/t` with following options:
-
-| Command | Usage             |
-| :------ | :---------------- |
-| help    | Show this message |
-| all     | Show all jobs     |
-
-For example `/t help` displays this message.
-EOT;
+    protected $helpView = 'mattermost.task.help';
 
 
     public function __construct(Request $request)
@@ -36,10 +27,7 @@ EOT;
     {
         if (count($this->args) < 2)
         {
-            return response()->json([
-                'response_type' => 'ephemeral',
-                'text' => 'Usage: `/t new project_code task_name` E.g. `/t new NYP Buy wine`.',
-            ]);
+            return $this->response('Usage: `/t new project_code task_name` E.g. `/t new NYP Buy wine`.');
         }
 
         $code = $this->args[0];

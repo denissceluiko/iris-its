@@ -14,7 +14,7 @@
 namespace Illuminate\Support\Facades;
 
 Route::group(['namespace' => 'Mattermost', 'middleware' => ['mattermost']], function() {
-    Route::post('/team', 'TeamController@router');
-    Route::post('/pr', 'ProjectController@router');
-    Route::post('/t', 'TaskController@router');
+    Route::get('/team', 'TeamController@router');
+    Route::get('/pr', 'ProjectController@router');
+    Route::get('/t', 'TaskController@router');
 });

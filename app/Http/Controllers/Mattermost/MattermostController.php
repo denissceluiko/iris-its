@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Mattermost;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class MattermostController extends Controller
 {
     protected $request;
     protected $args = null;
     protected $option = null;
-    protected $helpMessage = 'Placeholder help message';
+    protected $helpView = 'mattermost.help';
 
 
     public function __construct(Request $request)
@@ -60,15 +61,32 @@ class MattermostController extends Controller
     }
 
     /**
+     * Generates a response
+     *
+     * @param array|string $data
+     * @param string $view
+     * @param string $type
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function response($data, $view = null, $type = 'ephemeral')
+    {
+        $view = func_num_args() == 1 && View::exists($data) ? $data : (View::exists($view) ? $view : null);
+        $data = $view == $data ? [] : $data; // response('view.name') called
+        $message = ($view && is_array($data)) ? View::make($view, $data)->render() : (is_array($data) ? json_encode($data) : $data);
+
+        return response()->json([
+            'response_type' => $type,
+            'text' => $message,
+        ]);
+    }
+
+    /**
      * Provides help reference for the command group
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function optionHelp()
     {
-        return response()->json([
-            'response_type' => 'ephemeral',
-            'text' => $this->helpMessage,
-        ]);
+        return $this->response($this->helpView);
     }
 }
