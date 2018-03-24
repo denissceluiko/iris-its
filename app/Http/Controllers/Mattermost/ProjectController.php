@@ -48,7 +48,7 @@ EOT;
         {
             return response()->json([
                 'response_type' => 'ephemeral',
-                'text' => 'Usage: `/pr project_name project_code` E.g. `/p "New year\'s party" NYP`. \nNote: If project_name contains more than one word, enclose it in quotes (`"`).',
+                'text' => 'Usage: `/p project_name project_code` E.g. `/p "New year\'s party" NYP`. \nNote: If project_name contains more than one word, enclose it in quotes (`"`).',
             ]);
         }
         $name = $this->args[0];
