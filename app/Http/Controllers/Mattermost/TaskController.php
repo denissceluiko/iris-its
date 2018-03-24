@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers\Mattermost;
 
-use App\Task;
+use App\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends MattermostController
 {
+    /**
+     * @var Team
+     */
+    protected $team;
+
     protected $helpMessage = <<<EOT
 Use `/t` with following options:
 
@@ -19,7 +25,51 @@ For example `/t help` displays this message.
 EOT;
 
 
-    public function optionAll(Request $request)
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->team = Team::where('mm_id', $request->team_id)->first();
+    }
+
+    public function optionNew()
+    {
+        if (count($this->args) < 2)
+        {
+            return response()->json([
+                'response_type' => 'ephemeral',
+                'text' => 'Usage: `/t new project_code task_name` E.g. `/t new NYP Buy wine`.',
+            ]);
+        }
+
+        $code = $this->args[0];
+        $project = $this->team->projects()->where('code', $code)->first();
+
+        if (!$project)
+        {
+            return response()->json([
+                'response_type' => 'ephemeral',
+                'text' => "Project with a code `$code` does not exist.",
+            ]);
+        }
+
+        $task = $project->tasks()->create([
+            'name' => implode(' ', array_slice($this->args, 1)),
+            'code' => "{$code}-{$project->next_task_number}",
+            'creator_id' => Auth::user()->id,
+            'assignee_id' => Auth::user()->id,
+        ]);
+
+        $project->increment('next_task_number');
+
+        return response()->json([
+            'response_type' => 'ephemeral',
+            'text' => "`$task->code` $task->name created.",
+        ]);
+
+    }
+
+    public function optionAll()
     {
         return response()->json([
             'response_type' => 'ephemeral',
@@ -27,7 +77,7 @@ EOT;
         ]);
     }
 
-    public function optionMy(Request $request)
+    public function optionMy()
     {
         return response()->json([
             'response_type' => 'ephemeral',
@@ -35,7 +85,7 @@ EOT;
         ]);
     }
 
-    public function optionTake(Request $request)
+    public function optionTake()
     {
         return response()->json([
             'response_type' => 'ephemeral',
