@@ -14,7 +14,7 @@ class ProjectController extends MattermostController
      */
     protected $team;
 
-    protected $helpView = 'mattermost.task.help';
+    protected $helpView = 'mattermost.project.help';
 
     /**
      * ProjectController constructor.
