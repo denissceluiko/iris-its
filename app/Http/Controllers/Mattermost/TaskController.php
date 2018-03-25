@@ -35,10 +35,7 @@ class TaskController extends MattermostController
 
         if (!$project)
         {
-            return response()->json([
-                'response_type' => 'ephemeral',
-                'text' => "Project with a code `$code` does not exist.",
-            ]);
+            return $this->response("Project with a code `$code` does not exist.");
         }
 
         $task = $project->tasks()->create([
@@ -50,45 +47,24 @@ class TaskController extends MattermostController
 
         $project->increment('next_task_number');
 
-        return response()->json([
-            'response_type' => 'ephemeral',
-            'text' => "`$task->code` $task->name created.",
-        ]);
+        return $this->response("`$task->code` $task->name created.");
 
     }
 
     public function optionAll()
     {
-        return response()->json([
-            'response_type' => 'ephemeral',
-            'text' => '',
-        ]);
+        return $this->response('mattermost.task.all');
     }
 
     public function optionMy()
     {
         $tasks = Auth::user()->tasks;
-        $res_text = <<<EOT
-        | Code | Name |
-        | :--- | :--- |
-EOT;
 
-        foreach ($tasks as $task)
-        {
-            $res_text .= "| $task->code | $task->name |
-            ";
-        }
-        return response()->json([
-            'response_type' => 'ephemeral',
-            'text' => '',
-        ]);
+        return $this->response(compact('tasks'), 'mattermost.task.my');
     }
 
     public function optionTake()
     {
-        return response()->json([
-            'response_type' => 'ephemeral',
-            'text' => '',
-        ]);
+        return $this->response();
     }
 }

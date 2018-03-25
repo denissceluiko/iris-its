@@ -89,4 +89,26 @@ class MattermostController extends Controller
     {
         return $this->response($this->helpView);
     }
+
+    /**
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function optionDump(Request $request)
+    {
+        return $this->response('Requested params: '.json_encode([
+                'channel_id' => $request->channel_id,
+                'channel_name' => $request->channel_name,
+                'command' => $request->command,
+                'team_domain' => $request->team_domain,
+                'team_id' => $request->team_id,
+                'text' => $request->text,
+                'token' => $request->token,
+                'user_id' => $request->user_id,
+                'user_name' => $request->user_name,
+            ])
+        );
+    }
 }

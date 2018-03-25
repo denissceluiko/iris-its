@@ -37,10 +37,7 @@ class ProjectController extends MattermostController
     {
         if (count($this->args) < 2)
         {
-            return response()->json([
-                'response_type' => 'ephemeral',
-                'text' => 'Usage: `/p new project_code project_name` E.g. `/p new NYP New year\'s party`.',
-            ]);
+            return $this->response('Usage: `/p new project_code project_name` E.g. `/p new NYP New year\'s party`.');
         }
         $code = $this->args[0];
         $name = implode(' ', array_slice($this->args, 1));
@@ -48,26 +45,17 @@ class ProjectController extends MattermostController
         $project = $this->team->projects()->where('name', $name)->first();
         if ($project)
         {
-            return response()->json([
-                'response_type' => 'ephemeral',
-                'text' => "Project named $name already exists in this team.",
-            ]);
+            return $this->response("Project named $name already exists in this team.");
         }
 
         $project = $this->team->projects()->where('code', $code)->first();
         if ($project)
         {
-            return response()->json([
-                'response_type' => 'ephemeral',
-                'text' => "Project with a code `$code` already exists in this team.",
-            ]);
+            return $this->response("Project with a code `$code` already exists in this team.");
         }
 
         $this->team->projects()->create(compact('name', 'code'));
 
-        return response()->json([
-            'response_type' => 'ephemeral',
-            'text' => "Project $name created! Use `/t new $code` to add a new task.",
-        ]);
+        return $this->response("Project $name created! Use `/t new $code` to add a new task.");
     }
 }

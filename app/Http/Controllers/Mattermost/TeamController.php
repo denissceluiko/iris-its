@@ -20,41 +20,11 @@ class TeamController extends MattermostController
                 'user_id' => 1,
             ]);
 
-            return response()->json([
-                'response_type' => 'ephemeral',
-                'text' => "Team `$team->mm_domain` has been initialized."
-            ]);
+            return $this->response("Team `$team->mm_domain` has been initialized.");
         }
         else
         {
-            return response()->json([
-                'response_type' => 'ephemeral',
-                'text' => "Team `$team->mm_domain` already exists."
-            ]);
+            return $this->response("Team `$team->mm_domain` already exists.");
         }
-    }
-
-    /**
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function optionDump(Request $request)
-    {
-        return response()->json([
-            'response_type' => 'ephemeral',
-            'text' => 'Requested params: '.json_encode([
-                'channel_id' => $request->channel_id,
-                'channel_name' => $request->channel_name,
-                'command' => $request->command,
-                'team_domain' => $request->team_domain,
-                'team_id' => $request->team_id,
-                'text' => $request->text,
-                'token' => $request->token,
-                'user_id' => $request->user_id,
-                'user_name' => $request->user_name,
-            ]),
-        ]);
     }
 }
