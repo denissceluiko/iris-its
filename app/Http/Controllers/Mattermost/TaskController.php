@@ -27,7 +27,7 @@ class TaskController extends MattermostController
     {
         if (count($this->args) < 2)
         {
-            return $this->response('Usage: `/t new project_code task_name` E.g. `/t new NYP Buy wine`.');
+            return $this->response("Usage: `$this->command new project_code task_name` E.g. `$this->command new NYP Buy wine`.");
         }
 
         $code = $this->args[0];

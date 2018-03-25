@@ -37,7 +37,7 @@ class ProjectController extends MattermostController
     {
         if (count($this->args) < 2)
         {
-            return $this->response('Usage: `/p new project_code project_name` E.g. `/p new NYP New year\'s party`.');
+            return $this->response("Usage: `$this->command new project_code project_name` E.g. `$this->command new NYP New year\'s party`.");
         }
         $code = $this->args[0];
         $name = implode(' ', array_slice($this->args, 1));

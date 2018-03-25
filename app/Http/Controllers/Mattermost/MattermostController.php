@@ -8,15 +8,53 @@ use Illuminate\Support\Facades\View;
 
 class MattermostController extends Controller
 {
+    /**
+     * @var Request
+     */
     protected $request;
-    protected $args = null;
-    protected $option = null;
+
+    /**
+     * Slash command used by user.
+     *
+     * @var string
+     */
+    protected $command;
+
+    /**
+     * @return string
+     */
+    public function getCommand()
+    {
+        return $this->command;
+    }
+
+    /**
+     * First argument of the slash command.
+     *
+     * @var string
+     */
+    protected $option;
+
+    /**
+     * The rest of the arguments of the slash command.
+     *
+     * @var array
+     */
+    protected $args;
+
+    /**
+     * View used as the help message.
+     * Must be overridden by children.
+     *
+     * @var string
+     */
     protected $helpView = 'mattermost.help';
 
 
     public function __construct(Request $request)
     {
         $this->request = $request;
+        $this->command = $request->command;
         $this->splitText();
     }
 
@@ -57,7 +95,6 @@ class MattermostController extends Controller
             $this->option = $matches[0] ?? null;
             $this->args = array_slice($matches, 1);
         }
-
     }
 
     /**
@@ -72,6 +109,7 @@ class MattermostController extends Controller
     {
         $view = func_num_args() == 1 && View::exists($data) ? $data : (View::exists($view) ? $view : null);
         $data = $view == $data ? [] : $data; // response('view.name') called
+        $data = array_merge($data, ['mm' => $this]);
         $message = ($view && is_array($data)) ? View::make($view, $data)->render() : (is_array($data) ? json_encode($data) : $data);
 
         return response()->json([

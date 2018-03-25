@@ -1,8 +1,8 @@
-Use `/p` with following options:
+Use `{{ $mm->getCommand() }}` with following options:
 
 | Command | Usage             | Example |
 | :------ | :---------------- | :------ |
-| help    | Show this message | /p help
-| new     | project_code project_name | /p new NYP New Year's party |
+| help    | Show this message | {{ $mm->getCommand() }} help
+| new     | project_code project_name | {{ $mm->getCommand() }} new NYP New Year's party |
 
-For example `/p help` displays this message.
+For example `{{ $mm->getCommand() }} help` displays this message.
