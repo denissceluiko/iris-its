@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -30,5 +31,15 @@ class User extends Authenticatable
     public function tasks()
     {
         return $this->hasMany(Task::class, 'assignee_id');
+    }
+
+    /**
+     * @param Builder $query
+     * @param $mm_id
+     * @return Builder
+     */
+    public function scopeFromMattermost(Builder $query, $mm_id)
+    {
+        return $query->where('mm_id'. $mm_id);
     }
 }

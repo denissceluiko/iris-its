@@ -22,7 +22,7 @@ trait MattermostRequest
             $user = factory(User::class)->create();
         }
 
-        $this->request['user_id'] = $user->id;
+        $this->request['user_id'] = $user->mm_id;
         $this->request['user_name'] = $user->name;
         return $this;
     }
@@ -38,6 +38,10 @@ trait MattermostRequest
         return $this;
     }
 
+    /**
+     * @param string $uri
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
     public function send($uri)
     {
         $this->request['command'] = $uri;

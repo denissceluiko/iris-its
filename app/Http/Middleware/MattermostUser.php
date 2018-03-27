@@ -17,7 +17,7 @@ class MattermostUser
      */
     public function handle($request, Closure $next)
     {
-        if ($request->has('user_id'))
+        if ($request->has('user_id') && $request->has('user_name'))
         {
             $user = User::where('mm_id', $request->user_id)->first();
             if (!$user) {
@@ -27,6 +27,10 @@ class MattermostUser
                 ]);
             }
             Auth::login($user);
+        }
+        else
+        {
+            return response()->json('Unauthorized', 401);
         }
         return $next($request);
     }
