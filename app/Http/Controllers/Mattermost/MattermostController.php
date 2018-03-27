@@ -108,8 +108,12 @@ class MattermostController extends Controller
     public function response($data, $view = null, $type = 'ephemeral')
     {
         $view = func_num_args() == 1 && View::exists($data) ? $data : (View::exists($view) ? $view : null);
-        $data = $view == $data ? [] : $data; // response('view.name') called
-        $data = array_merge($data, ['mm' => $this]);
+        if ($view == $data) // response('view.name') called
+            $data = [];
+        else if($view != null) // response(['key'=>'value'], 'view.name')
+            $data = array_merge($data, ['mm' => $this]);
+
+        $data = $view == $data ? [] : ($view ? array_merge($data, ['mm' => $this]) : $data);
         $message = ($view && is_array($data)) ? View::make($view, $data)->render() : (is_array($data) ? json_encode($data) : $data);
 
         return response()->json([

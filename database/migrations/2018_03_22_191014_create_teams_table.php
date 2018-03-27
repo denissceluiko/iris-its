@@ -17,7 +17,6 @@ class CreateTeamsTable extends Migration
             $table->increments('id');
             $table->string('mm_id');
             $table->string('mm_domain');
-            $table->integer('user_id')->unsigned();
             $table->timestamps();
         });
     }
