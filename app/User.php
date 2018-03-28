@@ -40,6 +40,6 @@ class User extends Authenticatable
      */
     public function scopeFromMattermost(Builder $query, $mm_id)
     {
-        return $query->where('mm_id'. $mm_id);
+        return $query->where('mm_id', $mm_id);
     }
 }
