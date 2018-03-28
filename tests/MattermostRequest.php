@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Team;
 use App\User;
+use Illuminate\Support\Facades\Facade;
 
 trait MattermostRequest
 {

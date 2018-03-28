@@ -48,8 +48,7 @@ class MattermostController extends Controller
      *
      * @var string
      */
-    protected $helpView = 'mattermost.help';
-
+    protected $defaultView = 'mattermost.help';
 
     public function __construct(Request $request)
     {
@@ -129,7 +128,7 @@ class MattermostController extends Controller
      */
     public function optionHelp()
     {
-        return $this->response($this->helpView);
+        return $this->response($this->defaultView);
     }
 
     /**

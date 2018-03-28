@@ -6,8 +6,6 @@ use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\MattermostRequest;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MiddlewareTest extends TestCase
 {
@@ -30,7 +28,7 @@ class MiddlewareTest extends TestCase
     {
         $response = $this->user()->send('/team');
 
-        $response->assertStatus(200);
+        $response->assertSuccessful();
     }
 
     /**

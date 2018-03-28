@@ -36,4 +36,26 @@ class TeamTest extends TestCase
 
         $response->assertJsonFragment(['text' => "Team `$team->mm_domain` already exists."]);
     }
+
+    /**
+     * @test
+     */
+    public function help_is_available()
+    {
+        $response = $this->text('help')->user()->send('/team');
+
+        $response->assertSuccessful();
+        $response->assertSee('/team help');
+    }
+
+    /**
+     * @test
+     */
+    public function help_if_no_arguments_provided()
+    {
+        $response = $this->user()->send('/team');
+
+        $response->assertSuccessful();
+        $response->assertSee('/team help');
+    }
 }

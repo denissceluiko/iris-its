@@ -13,7 +13,7 @@ class TaskController extends MattermostController
      */
     protected $team;
 
-    protected $helpView = 'mattermost.task.help';
+    protected $defaultView = 'mattermost.task.help';
 
 
     public function __construct(Request $request)

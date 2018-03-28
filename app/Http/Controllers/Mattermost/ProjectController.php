@@ -14,7 +14,7 @@ class ProjectController extends MattermostController
      */
     protected $team;
 
-    protected $helpView = 'mattermost.project.help';
+    protected $defaultView = 'mattermost.project.help';
 
     /**
      * ProjectController constructor.
@@ -25,7 +25,7 @@ class ProjectController extends MattermostController
     {
         parent::__construct($request);
 
-        $this->team = Team::where('mm_id', $request->team_id)->first();
+        $this->team = Team::fromMattermost($request->team_id)->first();
     }
 
     /**
@@ -39,19 +39,19 @@ class ProjectController extends MattermostController
         {
             return $this->response("Usage: `$this->command new project_code project_name` E.g. `$this->command new NYP New year\'s party`.");
         }
-        $code = $this->args[0];
+        $code = mb_strtoupper($this->args[0]);
         $name = implode(' ', array_slice($this->args, 1));
 
         $project = $this->team->projects()->where('name', $name)->first();
         if ($project)
         {
-            return $this->response("Project named $name already exists in this team.");
+            return $this->response("Project named $name already exists in {$this->team->mm_domain}.");
         }
 
         $project = $this->team->projects()->where('code', $code)->first();
         if ($project)
         {
-            return $this->response("Project with a code `$code` already exists in this team.");
+            return $this->response("Project with a code `$code` already exists in {$this->team->mm_domain}.");
         }
 
         $this->team->projects()->create(compact('name', 'code'));

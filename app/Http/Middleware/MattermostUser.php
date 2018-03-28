@@ -19,7 +19,7 @@ class MattermostUser
     {
         if ($request->has('user_id') && $request->has('user_name'))
         {
-            $user = User::where('mm_id', $request->user_id)->first();
+            $user = User::fromMattermost($request->user_id)->first();
             if (!$user) {
                 $user = User::create([
                     'mm_id' => $request->user_id,

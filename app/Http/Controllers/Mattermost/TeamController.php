@@ -6,7 +6,7 @@ use App\Team;
 
 class TeamController extends MattermostController
 {
-    protected $helpView = 'mattermost.team.help';
+    protected $defaultView = 'mattermost.team.help';
 
     public function optionInit()
     {
