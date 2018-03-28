@@ -20,7 +20,7 @@ class TeamTest extends TestCase
     {
         $team = factory(Team::class)->make();
 
-        $response = $this->text('init')->user()->team($team)->send('/team');
+        $response = $this->text('init')->team($team)->send('/team');
 
         $response->assertJsonFragment(['text' => "Team `$team->mm_domain` has been initialized."]);
     }
@@ -32,7 +32,7 @@ class TeamTest extends TestCase
     {
         $team = factory(Team::class)->create();
 
-        $response = $this->text('init')->user()->team($team)->send('/team');
+        $response = $this->text('init')->team($team)->send('/team');
 
         $response->assertJsonFragment(['text' => "Team `$team->mm_domain` already exists."]);
     }
@@ -42,7 +42,7 @@ class TeamTest extends TestCase
      */
     public function help_is_available()
     {
-        $response = $this->text('help')->user()->send('/team');
+        $response = $this->text('help')->send('/team');
 
         $response->assertSuccessful();
         $response->assertSee('/team help');
@@ -53,7 +53,7 @@ class TeamTest extends TestCase
      */
     public function help_if_no_arguments_provided()
     {
-        $response = $this->user()->send('/team');
+        $response = $this->send('/team');
 
         $response->assertSuccessful();
         $response->assertSee('/team help');

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Facade;
 trait MattermostRequest
 {
     protected $request = [];
+    protected $noUser = false;
 
     public function text($text)
     {
@@ -25,6 +26,12 @@ trait MattermostRequest
 
         $this->request['user_id'] = $user->mm_id;
         $this->request['user_name'] = $user->name;
+        return $this;
+    }
+
+    public function noUser()
+    {
+        $this->noUser = true;
         return $this;
     }
 
@@ -45,6 +52,10 @@ trait MattermostRequest
      */
     public function send($uri)
     {
+        if (!isset($this->request['user_id']) && $this->noUser == false)
+        {
+            $this->user();
+        }
         $this->request['command'] = $uri;
         return $this->post($uri, $this->request);
     }

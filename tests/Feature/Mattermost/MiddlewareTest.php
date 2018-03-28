@@ -16,7 +16,7 @@ class MiddlewareTest extends TestCase
      */
     public function denies_request_without_user_credentials()
     {
-        $response = $this->send('/team');
+        $response = $this->noUser()->send('/team');
 
         $response->assertStatus(401);
     }
@@ -26,7 +26,7 @@ class MiddlewareTest extends TestCase
      */
     public function accepts_request_with_user_credentials()
     {
-        $response = $this->user()->send('/team');
+        $response = $this->send('/team');
 
         $response->assertSuccessful();
     }

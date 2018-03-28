@@ -128,7 +128,7 @@ class ProjectTest extends TestCase
      */
     public function help_is_available()
     {
-        $response = $this->text('help')->user()->team()->send('/pr');
+        $response = $this->text('help')->team()->send('/pr');
 
         $response->assertSuccessful();
         $response->assertSee('/pr help');
@@ -139,7 +139,7 @@ class ProjectTest extends TestCase
      */
     public function help_if_no_arguments_provided()
     {
-        $response = $this->user()->team()->send('/pr');
+        $response = $this->team()->send('/pr');
 
         $response->assertSuccessful();
         $response->assertSee('/pr help');
