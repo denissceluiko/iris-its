@@ -58,4 +58,15 @@ class TeamTest extends TestCase
         $response->assertSuccessful();
         $response->assertSee('/team help');
     }
+
+    /**
+     * @test
+     */
+    public function test_dump()
+    {
+        $response = $this->text('dump')->send('/team');
+
+        $response->assertSuccessful();
+        $response->assertSee('Requested params');
+    }
 }
