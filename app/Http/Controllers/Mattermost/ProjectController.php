@@ -42,13 +42,13 @@ class ProjectController extends MattermostController
         $code = mb_strtoupper($this->args[0]);
         $name = implode(' ', array_slice($this->args, 1));
 
-        $project = $this->team->projects()->where('name', $name)->first();
+        $project = $this->team->projects()->withName($name)->first();
         if ($project)
         {
             return $this->response("Project named $name already exists in {$this->team->mm_domain}.");
         }
 
-        $project = $this->team->projects()->where('code', $code)->first();
+        $project = $this->team->projects()->withCode($code)->first();
         if ($project)
         {
             return $this->response("Project with a code `$code` already exists in {$this->team->mm_domain}.");
@@ -57,5 +57,13 @@ class ProjectController extends MattermostController
         $this->team->projects()->create(compact('name', 'code'));
 
         return $this->response("Project $name created! Use `/t new $code` to add a new task.");
+    }
+
+    public function optionList()
+    {
+        return $this->response([
+            'team' => $this->team,
+            'projects' => $this->team->projects()->get()
+        ], 'mattermost.project.list');
     }
 }

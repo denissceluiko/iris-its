@@ -145,4 +145,14 @@ class ProjectTest extends TestCase
         $response->assertSee('/pr help');
     }
 
+    /**
+     * @test
+     */
+    public function can_see_project_list()
+    {
+        $this->team->projects()->saveMany(factory(Project::class, 5)->make());
+        $response = $this->text('list')->team($this->team)->send('/pr');
+
+        $response->assertSee('Projects in '.$this->team->mm_domain);
+    }
 }

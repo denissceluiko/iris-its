@@ -83,5 +83,15 @@ class TaskTest extends TestCase
         $response->assertJsonFragment(['text' => "Project with a code `$code` does not exist."]);
     }
 
+    /**
+     * @test
+     */
+    public function project_code_is_automatically_capitalized()
+    {
+        $task = factory(Task::class)->make();
+        $code = mb_strtolower($this->project->code);
+        $response = $this->text("new $code $task->name")->team($this->team)->send('/t');
 
+        $response->assertSee("$task->name created");
+    }
 }

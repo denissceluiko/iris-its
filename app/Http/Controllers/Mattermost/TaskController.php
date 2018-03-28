@@ -40,7 +40,7 @@ class TaskController extends MattermostController
 
         $task = $project->tasks()->create([
             'name' => implode(' ', array_slice($this->args, 1)),
-            'code' => "{$code}-{$project->next_task_number}",
+            'code' => $project->code.'-'.mb_strtoupper($project->next_task_number),
             'creator_id' => Auth::user()->id,
             'assignee_id' => Auth::user()->id,
         ]);
