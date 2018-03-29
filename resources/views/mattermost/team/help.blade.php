@@ -1,4 +1,4 @@
-Use `/team` with following options:
+Use `{{ $mm->getCommand() }}` with following options:
 
 | Command | Usage             |
 | :------ | :---------------- |
@@ -6,4 +6,4 @@ Use `/team` with following options:
 | init    | Initializes ITS for the current team |
 | dump    | Dumps request data |
 
-For example `/team help` displays this message.
+For example `{{ $mm->getCommand() }} help` displays this message.

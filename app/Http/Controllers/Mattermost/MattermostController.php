@@ -122,6 +122,27 @@ class MattermostController extends Controller
     }
 
     /**
+     * Returns the command user attempted and explanation of proper usage.
+     *
+     * @param string $text
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function usage($text)
+    {
+        return $this->response(['usage' => $text], 'mattermost.usage');
+    }
+
+    /**
+     * Returns full slash command user sent
+     *
+     * @return string
+     */
+    public function userRequest()
+    {
+        return $this->command.' '.$this->request->text;
+    }
+
+    /**
      * Provides help reference for the command group
      *
      * @return \Illuminate\Http\JsonResponse
