@@ -47,9 +47,20 @@ class TaskController extends MattermostController
 
     }
 
-    public function optionAll()
+    public function optionList()
     {
-        return $this->response('mattermost.task.all');
+        $project = $this->team->projects()->withCode($this->args[0])->first();
+
+        if (!$project)
+        {
+            return $this->response("Project {$this->args[0]} does not exist.");
+        }
+
+        return $this->response([
+            'team' => $this->team,
+            'project' => $project,
+            'tasks' => $project->tasks()->with(['creator', 'assignee'])->get()
+        ], 'mattermost.task.list');
     }
 
     public function optionMy()
