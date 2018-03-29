@@ -59,6 +59,16 @@ class ProjectController extends MattermostController
         return $this->response("Project $name created! Use `/t new $code` to add a new task.");
     }
 
+    public function optionAdd()
+    {
+        return $this->optionNew();
+    }
+
+    public function optionCreate()
+    {
+        return $this->optionNew();
+    }
+
     public function optionList()
     {
         return $this->response([

@@ -30,8 +30,8 @@ class TaskController extends MattermostController
             return $this->response("Usage: `$this->command new project_code task_name` E.g. `$this->command new NYP Buy wine`.");
         }
 
-        $code = $this->args[0];
-        $project = $this->team->projects()->where('code', $code)->first();
+        $code = mb_strtoupper($this->args[0]);
+        $project = $this->team->projects()->withCode($code)->first();
 
         if (!$project)
         {

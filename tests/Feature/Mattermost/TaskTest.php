@@ -80,7 +80,7 @@ class TaskTest extends TestCase
 
         $response = $this->text("new $code $task->name")->team($this->team)->send('/t');
 
-        $response->assertJsonFragment(['text' => "Project with a code `$code` does not exist."]);
+        $response->assertJsonFragment(['text' => "Project with a code `".mb_strtoupper($code)."` does not exist."]);
     }
 
     /**

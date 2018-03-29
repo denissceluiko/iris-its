@@ -26,19 +26,40 @@ class ProjectTest extends TestCase
         $this->team2 = factory(Team::class)->create(['mm_id' => 'team2id', 'mm_domain' => 'Team 2']);
     }
 
-    /**
-     * @test
-     */
-    public function can_create_project()
+    public function can_create_project_with_alias($option)
     {
         $project = factory(Project::class)->make();
 
-        $response = $this->text("new $project->code $project->name")->team($this->team)->user($this->user)->send('/pr');
+        $this->text("$option $project->code $project->name")->team($this->team)->user($this->user)->send('/pr');
 
         $this->assertDatabaseHas('projects', [
             'name' => $project->name,
             'code' => $project->code,
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function can_create_project_using_new()
+    {
+        $this->can_create_project_with_alias('new');
+    }
+
+    /**
+     * @test
+     */
+    public function can_create_project_using_add()
+    {
+        $this->can_create_project_with_alias('add');
+    }
+
+    /**
+     * @test
+     */
+    public function can_create_project_using_create()
+    {
+        $this->can_create_project_with_alias('create');
     }
 
     /**
