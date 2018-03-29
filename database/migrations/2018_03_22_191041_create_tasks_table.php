@@ -19,10 +19,10 @@ class CreateTasksTable extends Migration
             $table->string('name');
             $table->string('code');
             $table->integer('creator_id')->unsigned();
-            $table->integer('assignee_id')->unsigned();
-            $table->integer('status')->default(1);
+            $table->integer('assignee_id')->unsigned()->nullable();
+            $table->string('status')->default('New');
             $table->text('description')->nullable();
-            $table->timestamp('deadline_at')->nullable();
+            $table->dateTime('deadline_at')->nullable();
             $table->timestamps();
         });
     }

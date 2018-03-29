@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Project extends Model
 {
-    protected $guarded = [];
+    protected $fillable = ['name', 'code'];
 
     public function tasks()
     {
@@ -17,6 +18,32 @@ class Project extends Model
     public function team()
     {
         return $this->belongsTo(Team::class);
+    }
+
+    /**
+     * @param array $params
+     * @return Task|null
+     */
+    public function newTask($params)
+    {
+        if (!array_key_exists('name', $params)) return null;
+
+        $args = [
+            'name' => $params['name'],
+            'code' => $this->code.'-'.$this->next_task_number,
+            'description' => $params['description'] ?? null,
+            'creator_id' => Auth::id(),
+            'status' => $params['status'] ?? 'New',
+            'assignee_id' => $params['assignee_id'] ?? null,
+            'deadline_at' => $params['deadline_at'] ?? null,
+        ];
+
+        $task = new Task($args);
+
+        $task = $this->tasks()->save($task);
+        $this->increment('next_task_number');
+
+        return $task;
     }
 
     /**

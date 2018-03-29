@@ -92,6 +92,24 @@ class TaskTest extends TestCase
         $code = mb_strtolower($this->project->code);
         $response = $this->text("new $code $task->name")->team($this->team)->send('/t');
 
-        $response->assertSee("$task->name created");
+        $response->assertSee($this->project->code);
     }
+
+//    /**
+//     * @test
+//     */
+//    public function can_see_task_list()
+//    {
+//        $tasks = factory(Task::class, 5)->make();
+//        $tasks->each(function($task){
+//            $this->project->newTask(['name' => $task->name]);
+//        });
+//
+//        $response = $this->text("list {$this->project->code}")->team($this->team)->send('/t');
+//
+//        foreach($tasks as $task)
+//        {
+//            $response->assertSee($task->name);
+//        }
+//    }
 }

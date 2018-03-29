@@ -6,7 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-    protected $guarded = [];
+    protected $fillable = ['name', 'code', 'creator_id', 'assignee_id', 'status', 'description', 'deadline_id'];
+//    protected $guarded = [];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deadline_at',
+    ];
 
     public function project()
     {

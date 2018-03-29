@@ -4,7 +4,7 @@ use Faker\Generator as Faker;
 
 $factory->define(\App\Project::class, function (Faker $faker) {
     return [
-        'name' => str_replace('.', '', $faker->name),
+        'name' => $faker->words(2, true),
         'code' => $faker->currencyCode,
     ];
 });

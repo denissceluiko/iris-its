@@ -38,14 +38,10 @@ class TaskController extends MattermostController
             return $this->response("Project with a code `$code` does not exist.");
         }
 
-        $task = $project->tasks()->create([
+        $task = $project->newTask([
             'name' => implode(' ', array_slice($this->args, 1)),
-            'code' => $project->code.'-'.mb_strtoupper($project->next_task_number),
-            'creator_id' => Auth::user()->id,
-            'assignee_id' => Auth::user()->id,
+            'assignee_id' => Auth::id(),
         ]);
-
-        $project->increment('next_task_number');
 
         return $this->response("`$task->code` $task->name created.");
 
