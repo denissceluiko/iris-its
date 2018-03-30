@@ -5,6 +5,7 @@ namespace Tests\Feature\Mattermost;
 use App\Project;
 use App\Task;
 use App\Team;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\MattermostRequest;
 use Tests\TestCase;
@@ -95,21 +96,23 @@ class TaskTest extends TestCase
         $response->assertSee($this->project->code);
     }
 
-//    /**
-//     * @test
-//     */
-//    public function can_see_task_list()
-//    {
-//        $tasks = factory(Task::class, 5)->make();
-//        $tasks->each(function($task){
-//            $this->project->newTask(['name' => $task->name]);
-//        });
-//
-//        $response = $this->text("list {$this->project->code}")->team($this->team)->send('/t');
-//
-//        foreach($tasks as $task)
-//        {
-//            $response->assertSee($task->name);
-//        }
-//    }
+    /**
+     * @test
+     */
+    public function can_see_task_list()
+    {
+        $this->actingAs(factory(User::class)->create());
+
+        $tasks = factory(Task::class, 5)->make();
+        $tasks->each(function($task){
+            $this->project->newTask(['name' => $task->name]);
+        });
+
+        $response = $this->text("list {$this->project->code}")->team($this->team)->send('/t');
+
+        foreach($tasks as $task)
+        {
+            $response->assertSee($task->name);
+        }
+    }
 }
