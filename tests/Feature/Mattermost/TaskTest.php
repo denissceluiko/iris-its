@@ -144,7 +144,7 @@ class TaskTest extends TestCase
     {
         $response = $this->text('list')->team()->send('/t');
 
-        $response->assertStatus(401);
+        $response->assertSuccessful();
         $response->assertSee('Usage');
     }
 }

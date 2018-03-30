@@ -181,7 +181,7 @@ class MattermostController extends Controller
     {
         $this->showRequest = true;
         $this->showUsage = true;
-        $this->statusCode = 401;
+//        $this->statusCode = 401; // Will not use for now, might change depending on users.
         return $this->response(['usage' => $text], 'mattermost.response');
     }
 
