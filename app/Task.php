@@ -31,6 +31,12 @@ class Task extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function drop()
+    {
+        $this->assignee_id = null;
+        $this->save();
+    }
+
     /**
      * @param Builder $query
      * @param $code

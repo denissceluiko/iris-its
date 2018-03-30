@@ -98,4 +98,29 @@ class TaskController extends MattermostController
 
         return $this->response("`$task->code` is now assigned to you.");
     }
+
+    public function optionDrop()
+    {
+        if (!isset($this->args[0]))
+        {
+            return $this->usage("`$this->command drop task_code` E.g. `$this->command drop NYP-42`.");
+        }
+
+        $code = $this->args[0];
+        $task = $this->team->tasks()->withCode($code)->first();
+
+        if (!$task)
+        {
+            return $this->response("Task `$code` does not exist.");
+        }
+
+        if ($task->assignee_id != Auth::id())
+        {
+            return $this->response("Task `$code` is not assigned to you, you can't drop it.");
+        }
+
+        $task->drop();
+
+        return $this->response("`$task->code` is now free from you :D");
+    }
 }

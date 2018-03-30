@@ -164,6 +164,17 @@ class TaskTest extends TestCase
     /**
      * @test
      */
+    public function cannot_list_tasks_of_a_project_that_does_not_exist()
+    {
+        $response = $this->text('list KEKMEISTARS')->team()->send('/t');
+
+        $response->assertSuccessful();
+        $response->assertSee('Project KEKMEISTARS does not exist.');
+    }
+
+    /**
+     * @test
+     */
     public function can_take_task()
     {
         $this->actingAs($this->user);
@@ -172,7 +183,7 @@ class TaskTest extends TestCase
 
         $response = $this->text("take $task->code")->team($this->team)->send('/t');
 
-//        $response->assertSuccessful();
+        $response->assertSuccessful();
         $response->assertSee("`$task->code` is now assigned to you.");
     }
 
@@ -194,6 +205,59 @@ class TaskTest extends TestCase
     public function cant_take_task_that_does_not_exist()
     {
         $response = $this->text('take KEKMEISTARS-6942')->team()->send('/t');
+
+        $response->assertSuccessful();
+        $response->assertSee("does not exist");
+    }
+
+    /**
+     * @test
+     */
+    public function can_drop_task()
+    {
+        $this->actingAs($this->user);
+        $task = factory(Task::class)->make(['assignee_id' => $this->user->id]);
+        $task = $this->project->newTask($task);
+
+        $response = $this->text("drop $task->code")->user($this->user)->team($this->team)->send('/t');
+
+        $response->assertSuccessful();
+        $response->assertSee("`$task->code` is now free from you");
+    }
+
+    /**
+     * @test
+     */
+    public function cannot_drop_task_that_is_not_yours()
+    {
+        $this->actingAs($this->user);
+        $task = factory(Task::class)->make(['assignee_id' => $this->user->id]);
+        $task = $this->project->newTask($task);
+
+        $response = $this->text("drop $task->code")->team($this->team)->send('/t');
+
+        $response->assertSuccessful();
+        $response->assertSee("`$task->code` is not assigned to you, you can't drop it");
+    }
+
+    /**
+     * @test
+     */
+    public function must_provide_task_code_to_drop_task()
+    {
+        $response = $this->text('drop')->team()->send('/t');
+
+        $response->assertSuccessful();
+        $response->assertSee('Usage');
+        $response->assertSee('code');
+    }
+
+    /**
+     * @test
+     */
+    public function cannot_drop_task_that_does_not_exist()
+    {
+        $response = $this->text('drop KEKMEISTARS-6942')->team()->send('/t');
 
         $response->assertSuccessful();
         $response->assertSee("does not exist");
