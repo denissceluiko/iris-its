@@ -55,7 +55,7 @@ class MattermostController extends Controller
      *
      * @var bool
      */
-    private $showCommand = false;
+    private $showRequest = false;
 
     /**
      * Used to determine if usage of the user's command should be included in the view
@@ -88,7 +88,7 @@ class MattermostController extends Controller
             }
         }
 
-        $this->showCommand = true;
+        $this->showRequest = true;
         return $this->optionHelp();
     }
 
@@ -113,7 +113,13 @@ class MattermostController extends Controller
     }
 
     /**
-     * Generates a response
+     * Generates a response.
+     *
+     * Possibilities:
+     * response('view.name')
+     * response(['key' => 'value'], 'view.name')
+     * response(['key' => 'value'])
+     * response('Text')
      *
      * @param array|string $data
      * @param string $view
@@ -123,13 +129,34 @@ class MattermostController extends Controller
     public function response($data, $view = null, $type = 'ephemeral')
     {
         $view = func_num_args() == 1 && View::exists($data) ? $data : (View::exists($view) ? $view : null);
-        if ($view == $data) // response('view.name') called
-            $data = [];
-        else if($view != null) // response(['key'=>'value'], 'view.name')
-            $data = array_merge($data, ['mm' => $this]);
 
-        $data = $view == $data ? [] : ($view ? array_merge($data, ['mm' => $this]) : $data);
-        $message = ($view && is_array($data)) ? View::make($view, $data)->render() : (is_array($data) ? json_encode($data) : $data);
+        if ($view != null) // response('view.name') or response(['key' => 'value'], 'view.name')
+        {
+            $dataSuffix = [];
+            if ($data != $view) // response(['key' => 'value'], 'view.name')
+            {
+                $dataSuffix = $data;
+            }
+
+            $data = array_merge([
+                'mm' => $this,
+                'showRequest' => $this->showRequest,
+                'showUsage' => $this->showUsage
+            ], $dataSuffix);
+        }
+
+        if ($view && is_array($data))
+        {
+            $message = View::make($view, $data)->render();
+        }
+        elseif (is_array($data))
+        {
+            $message = json_encode($data);
+        }
+        else
+        {
+            $message = $data;
+        }
 
         return response()->json([
             'response_type' => $type,
@@ -145,7 +172,7 @@ class MattermostController extends Controller
      */
     public function usage($text)
     {
-        $this->showCommand = true;
+        $this->showRequest = true;
         $this->showUsage = true;
         return $this->response(['usage' => $text], 'mattermost.response');
     }

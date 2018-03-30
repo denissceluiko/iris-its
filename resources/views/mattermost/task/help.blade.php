@@ -1,3 +1,5 @@
+@extends('mattermost.layout')
+@section('content')
 Use `{{ $mm->getCommand() }}` with following options:
 
 | Command | Usage             |
@@ -6,3 +8,4 @@ Use `{{ $mm->getCommand() }}` with following options:
 | all     | Show all tasks    |
 
 For example `{{ $mm->getCommand() }} help` displays this message.
+@endsection

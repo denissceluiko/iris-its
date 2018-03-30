@@ -1,3 +1,5 @@
+@extends('mattermost.layout')
+@section('content')
 Use `{{ $mm->getCommand() }}` with following options:
 
 | Option  | Arguments  | Example             | Usage |
@@ -7,3 +9,4 @@ Use `{{ $mm->getCommand() }}` with following options:
 | list    | -          | {{ $mm->getCommand() }} list | List all team's projects
 
 For example `{{ $mm->getCommand() }} help` displays this message.
+@endsection
