@@ -22,6 +22,7 @@ class TeamTest extends TestCase
 
         $response = $this->text('init')->team($team)->send('/team');
 
+        $response->assertSuccessful();
         $response->assertJsonFragment(['text' => "Team `$team->mm_domain` has been initialized."]);
     }
 
@@ -34,6 +35,7 @@ class TeamTest extends TestCase
 
         $response = $this->text('init')->team($team)->send('/team');
 
+        $response->assertSuccessful();
         $response->assertJsonFragment(['text' => "Team `$team->mm_domain` already exists."]);
     }
 

@@ -30,7 +30,8 @@ class ProjectTest extends TestCase
     {
         $project = factory(Project::class)->make();
 
-        $this->text("$option $project->code $project->name")->team($this->team)->user($this->user)->send('/pr');
+        $response = $this->text("$option $project->code $project->name")->team($this->team)->user($this->user)->send('/pr');
+        $response->assertSuccessful();
 
         $this->assertDatabaseHas('projects', [
             'name' => $project->name,
@@ -68,6 +69,7 @@ class ProjectTest extends TestCase
     public function if_not_enough_arguments_a_usage_example_is_shown()
     {
         $response = $this->text('new kek')->team($this->team)->user($this->user)->send('/pr');
+        $response->assertSuccessful();
         $response->assertSee('Usage')->assertSee('/pr');
     }
 
@@ -80,6 +82,7 @@ class ProjectTest extends TestCase
         $this->team->projects()->save($project);
 
         $response = $this->text("new $project->code $project->name")->team($this->team)->user($this->user)->send('/pr');
+        $response->assertSuccessful();
         $response->assertSee("Project named $project->name already exists in {$this->team->mm_domain}.");
     }
 
@@ -92,6 +95,7 @@ class ProjectTest extends TestCase
         $this->team->projects()->save($project);
 
         $response = $this->text("new $project->code ".substr(md5($project->name), 0, 4))->team($this->team)->user($this->user)->send('/pr');
+        $response->assertSuccessful();
         $response->assertSee("Project with a code `$project->code` already exists in {$this->team->mm_domain}.");
     }
 
@@ -104,6 +108,7 @@ class ProjectTest extends TestCase
         $this->team->projects()->save($project);
 
         $response = $this->text("new $project->code $project->name")->team($this->team2)->user($this->user)->send('/pr');
+        $response->assertSuccessful();
         $this->assertDatabaseHas('projects', [
             'name' => $project->name,
             'code' => $project->code,
@@ -120,6 +125,7 @@ class ProjectTest extends TestCase
         $this->team->projects()->save($project);
 
         $response = $this->text("new $project->code ".md5($project->name))->team($this->team2)->user($this->user)->send('/pr');
+        $response->assertSuccessful();
         $this->assertDatabaseHas('projects', [
             'name' => md5($project->name),
             'code' => $project->code,
@@ -135,6 +141,7 @@ class ProjectTest extends TestCase
         $project = factory(Project::class)->make(['code' => 'low']);
         $response = $this->text("new $project->code $project->name")->team($this->team)->user($this->user)->send('/pr');
 
+        $response->assertSuccessful();
         $response->assertJsonFragment(['text' => "Project $project->name created! Use `/t new ".mb_strtoupper($project->code)."` to add a new task."]);
         $this->assertDatabaseHas('projects', [
             'name' => $project->name,
@@ -174,6 +181,7 @@ class ProjectTest extends TestCase
         $this->team->projects()->saveMany(factory(Project::class, 5)->make());
         $response = $this->text('list')->team($this->team)->send('/pr');
 
+        $response->assertSuccessful();
         $response->assertSee('Projects in '.$this->team->mm_domain);
     }
 }

@@ -41,6 +41,7 @@ class TaskTest extends TestCase
         $task = factory(Task::class)->make();
         $response = $this->text("new {$this->project->code} $task->name")->team($this->team)->send('/t');
 
+        $response->assertSuccessful();
         $response->assertSee("$task->name created");
     }
 
@@ -66,6 +67,7 @@ class TaskTest extends TestCase
     {
         $response = $this->text("new")->team($this->team)->send('/t');
 
+        $response->assertSuccessful();
         $response->assertSee("Usage");
     }
 
@@ -79,6 +81,7 @@ class TaskTest extends TestCase
 
         $response = $this->text("new $code $task->name")->team($this->team)->send('/t');
 
+        $response->assertSuccessful();
         $response->assertJsonFragment(['text' => "Project with a code `".mb_strtoupper($code)."` does not exist."]);
     }
 
@@ -91,6 +94,7 @@ class TaskTest extends TestCase
         $code = mb_strtolower($this->project->code);
         $response = $this->text("new $code $task->name")->team($this->team)->send('/t');
 
+        $response->assertSuccessful();
         $response->assertSee($this->project->code);
     }
 
@@ -107,6 +111,8 @@ class TaskTest extends TestCase
         });
 
         $response = $this->text("list {$this->project->code}")->team($this->team)->send('/t');
+
+        $response->assertSuccessful();
 
         foreach($tasks as $task)
         {
@@ -130,6 +136,8 @@ class TaskTest extends TestCase
         });
 
         $response = $this->text("my")->user($user)->team($this->team)->send('/t');
+
+        $response->assertSuccessful();
 
         foreach($tasks as $task)
         {
