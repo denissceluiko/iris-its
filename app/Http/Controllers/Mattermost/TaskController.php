@@ -49,6 +49,11 @@ class TaskController extends MattermostController
 
     public function optionList()
     {
+        if (!isset($this->args[0]))
+        {
+            return $this->usage("`$this->command list project_code` E.g. `$this->command list NYP`.");
+        }
+
         $project = $this->team->projects()->withCode($this->args[0])->first();
 
         if (!$project)

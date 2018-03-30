@@ -122,8 +122,6 @@ class TaskTest extends TestCase
         $user = factory(User::class)->create();
         $this->actingAs($user);
 
-        $taskList = collect();
-
         $project = factory(Project::class)->create(['team_id' => $this->team->id]);
 
         $tasks = factory(Task::class, 5)->make(['assignee_id' => $user->id]);
@@ -137,5 +135,16 @@ class TaskTest extends TestCase
         {
             $response->assertSee($task->name);
         }
+    }
+
+    /**
+     * @test
+     */
+    public function task_list_must_have_project_code_provided()
+    {
+        $response = $this->text('list')->team()->send('/t');
+
+        $response->assertStatus(401);
+        $response->assertSee('Usage');
     }
 }

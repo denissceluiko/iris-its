@@ -14,6 +14,13 @@ class MattermostController extends Controller
     protected $request;
 
     /**
+     * Response status code
+     *
+     * @var int
+     */
+    private $statusCode = 200;
+
+    /**
      * Slash command used by user.
      *
      * @var string
@@ -161,7 +168,7 @@ class MattermostController extends Controller
         return response()->json([
             'response_type' => $type,
             'text' => $message,
-        ]);
+        ])->setStatusCode($this->statusCode);
     }
 
     /**
@@ -174,6 +181,7 @@ class MattermostController extends Controller
     {
         $this->showRequest = true;
         $this->showUsage = true;
+        $this->statusCode = 401;
         return $this->response(['usage' => $text], 'mattermost.response');
     }
 
