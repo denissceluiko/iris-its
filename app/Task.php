@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
@@ -28,5 +29,15 @@ class Task extends Model
     public function assignee()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @param Builder $query
+     * @param $code
+     * @return Builder
+     */
+    public function scopeWithCode(Builder $query, $code)
+    {
+        return $query->where('tasks.code', $code);
     }
 }

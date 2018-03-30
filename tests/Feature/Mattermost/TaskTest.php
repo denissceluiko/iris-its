@@ -25,10 +25,16 @@ class TaskTest extends TestCase
      */
     protected $project;
 
+    /**
+     * @var User
+     */
+    private $user;
+
     public function setUp()
     {
         parent::setUp();
 
+        $this->user = factory(User::class)->create();
         $this->team = factory(Team::class)->create();
         $this->project = $this->team->projects()->save(factory(Project::class)->make());
     }
@@ -74,7 +80,7 @@ class TaskTest extends TestCase
     /**
      * @test
      */
-    public function rejects_not_existing_projects()
+    public function rejects_creating_tasks_in_not_existing_projects()
     {
         $task = factory(Task::class)->make();
         $code = substr(md5($this->project->code), 0, 4);
@@ -103,7 +109,7 @@ class TaskTest extends TestCase
      */
     public function can_see_task_list()
     {
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs($this->user);
 
         $tasks = factory(Task::class, 5)->make();
         $tasks->each(function($task){
@@ -125,17 +131,16 @@ class TaskTest extends TestCase
      */
     public function user_can_see_their_task_list()
     {
-        $user = factory(User::class)->create();
-        $this->actingAs($user);
+        $this->actingAs($this->user);
 
-        $project = factory(Project::class)->create(['team_id' => $this->team->id]);
+        $project = $this->project;
 
-        $tasks = factory(Task::class, 5)->make(['assignee_id' => $user->id]);
+        $tasks = factory(Task::class, 5)->make(['assignee_id' => $this->user->id]);
         $tasks->each(function($task) use ($project) {
             $project->newTask($task);
         });
 
-        $response = $this->text("my")->user($user)->team($this->team)->send('/t');
+        $response = $this->text("my")->user($this->user)->team($this->team)->send('/t');
 
         $response->assertSuccessful();
 
@@ -154,5 +159,43 @@ class TaskTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertSee('Usage');
+    }
+
+    /**
+     * @test
+     */
+    public function can_take_task()
+    {
+        $this->actingAs($this->user);
+        $task = factory(Task::class)->make();
+        $task = $this->project->newTask($task);
+
+        $response = $this->text("take $task->code")->team($this->team)->send('/t');
+
+//        $response->assertSuccessful();
+        $response->assertSee("`$task->code` is now assigned to you.");
+    }
+
+    /**
+     * @test
+     */
+    public function must_provide_task_code_to_take_task()
+    {
+        $response = $this->text('take')->team()->send('/t');
+
+        $response->assertSuccessful();
+        $response->assertSee('Usage');
+        $response->assertSee('code');
+    }
+
+    /**
+     * @test
+     */
+    public function cant_take_task_that_does_not_exist()
+    {
+        $response = $this->text('take KEKMEISTARS-6942')->team()->send('/t');
+
+        $response->assertSuccessful();
+        $response->assertSee("does not exist");
     }
 }

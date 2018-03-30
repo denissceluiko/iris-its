@@ -13,6 +13,11 @@ class Team extends Model
         return $this->hasMany(Project::class);
     }
 
+    public function tasks()
+    {
+        return $this->hasManyThrough(Task::class, Project::class);
+    }
+
     /**
      * Search for team with a specific Mattermost team id.
      *

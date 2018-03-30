@@ -41,6 +41,7 @@ class ProjectController extends MattermostController
         }
         $code = mb_strtoupper($this->args[0]);
         $name = implode(' ', array_slice($this->args, 1));
+        $next_task_number = 1;
 
         $project = $this->team->projects()->withName($name)->first();
         if ($project)
@@ -54,7 +55,7 @@ class ProjectController extends MattermostController
             return $this->response("Project with a code `$code` already exists in {$this->team->mm_domain}.");
         }
 
-        $this->team->projects()->create(compact('name', 'code'));
+        $this->team->projects()->create(compact('name', 'code', 'next_task_number'));
 
         return $this->response("Project $name created! Use `/t new $code` to add a new task.");
     }

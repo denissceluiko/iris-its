@@ -80,6 +80,22 @@ class TaskController extends MattermostController
 
     public function optionTake()
     {
-        return $this->response();
+        if (!isset($this->args[0]))
+        {
+            return $this->usage("`$this->command take task_code` E.g. `$this->command take NYP-42`.");
+        }
+
+        $code = $this->args[0];
+        $task = $this->team->tasks()->withCode($code)->first();
+
+        if (!$task)
+        {
+            return $this->response("Task `$code` does not exist");
+        }
+
+        $task->assignee_id = Auth::id();
+        $task->update();
+
+        return $this->response("`$task->code` is now assigned to you.");
     }
 }

@@ -105,7 +105,7 @@ class MattermostController extends Controller
     protected function splitText() {
         if ($this->request->has('text') && mb_strlen($this->request->text) > 0)
         {
-            preg_match_all("/(\w+)|\"([^\"]+)\"/u", $this->request->text, $matches);
+            preg_match_all("/([^\"\s]+)|\"([^\"]+)\"/u", $this->request->text, $matches);
             $matches = $matches[0]; // We only need full pattern matches.
 
             // Cleanup
