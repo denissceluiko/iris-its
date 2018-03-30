@@ -21,11 +21,12 @@ class Project extends Model
     }
 
     /**
-     * @param array $params
+     * @param array|Task $params
      * @return Task|null
      */
     public function newTask($params)
     {
+        $params = is_a($params, Task::class) ? $params->toArray() : $params;
         if (!array_key_exists('name', $params)) return null;
 
         $args = [

@@ -9,8 +9,6 @@ use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\MattermostRequest;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TaskTest extends TestCase
 {
@@ -109,6 +107,31 @@ class TaskTest extends TestCase
         });
 
         $response = $this->text("list {$this->project->code}")->team($this->team)->send('/t');
+
+        foreach($tasks as $task)
+        {
+            $response->assertSee($task->name);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function user_can_see_their_task_list()
+    {
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
+
+        $taskList = collect();
+
+        $project = factory(Project::class)->create(['team_id' => $this->team->id]);
+
+        $tasks = factory(Task::class, 5)->make(['assignee_id' => $user->id]);
+        $tasks->each(function($task) use ($project) {
+            $project->newTask($task);
+        });
+
+        $response = $this->text("my")->user($user)->team($this->team)->send('/t');
 
         foreach($tasks as $task)
         {

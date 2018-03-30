@@ -20,7 +20,7 @@ class TaskController extends MattermostController
     {
         parent::__construct($request);
 
-        $this->team = Team::where('mm_id', $request->team_id)->first();
+        $this->team = Team::fromMattermost($request->team_id)->first();
     }
 
     public function optionNew()
@@ -65,9 +65,12 @@ class TaskController extends MattermostController
 
     public function optionMy()
     {
-        $tasks = Auth::user()->tasks;
+        $tasks = Auth::user()->tasks()->with('creator')->get();
 
-        return $this->response(compact('tasks'), 'mattermost.task.my');
+        return $this->response([
+            'tasks' => $tasks,
+            'team' => $this->team,
+        ], 'mattermost.task.my');
     }
 
     public function optionTake()
