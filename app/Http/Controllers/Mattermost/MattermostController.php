@@ -50,6 +50,20 @@ class MattermostController extends Controller
      */
     protected $defaultView = 'mattermost.help';
 
+    /**
+     * Used to determine if user's command should be included in the view
+     *
+     * @var bool
+     */
+    private $showCommand = false;
+
+    /**
+     * Used to determine if usage of the user's command should be included in the view
+     *
+     * @var bool
+     */
+    private $showUsage = false;
+
     public function __construct(Request $request)
     {
         $this->request = $request;
@@ -73,6 +87,8 @@ class MattermostController extends Controller
                 return $this->$method($this->request);
             }
         }
+
+        $this->showCommand = true;
         return $this->optionHelp();
     }
 
@@ -129,7 +145,9 @@ class MattermostController extends Controller
      */
     public function usage($text)
     {
-        return $this->response(['usage' => $text], 'mattermost.usage');
+        $this->showCommand = true;
+        $this->showUsage = true;
+        return $this->response(['usage' => $text], 'mattermost.response');
     }
 
     /**
