@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Task extends Model
 {
@@ -29,6 +30,25 @@ class Task extends Model
     public function assignee()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function start()
+    {
+        $this->status = 'in progress';
+        $this->assignee_id = Auth::id();
+        $this->save();
+    }
+
+    public function stop()
+    {
+        $this->status = 'on hold';
+        $this->save();
+    }
+
+    public function done()
+    {
+        $this->status = 'done';
+        $this->save();
     }
 
     public function drop()

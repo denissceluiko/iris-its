@@ -22,6 +22,9 @@ class TaskController extends MattermostController
         'get' => 'take',
         'from' => 'list',
         'in' => 'list',
+        'start' => 'status',
+        'stop' => 'status',
+        'done' => 'status',
     ];
 
     protected $defaultView = 'mattermost.task.help';
@@ -133,5 +136,49 @@ class TaskController extends MattermostController
         $task->drop();
 
         return $this->response("`$task->code` is now free from you :D");
+    }
+
+    /**
+     * Changes status of a task.
+     * Uses aliases to differentiate between actions.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function optionStatus()
+    {
+        if (!isset($this->args[0]))
+        {
+            if ($this->option != 'status')
+            {
+                return $this->usage("`$this->command $this->option task_code` E.g. `$this->command $this->option NYP-42`.");
+            }
+            else
+            {
+                return $this->response('mattemost.task.status');
+            }
+        }
+
+        $code = $this->args[0];
+        $task = $this->team->tasks()->withCode($code)->first();
+
+        if (!$task)
+        {
+            return $this->response("Task `$code` does not exist.");
+        }
+
+        switch ($this->option)
+        {
+            case 'start':
+                $task->start();
+                break;
+            case 'stop':
+                $task->stop();
+                break;
+            case 'done':
+                $task->done();
+                break;
+        }
+
+        return $this->response("`$task->code` is now $task->status.");
     }
 }
