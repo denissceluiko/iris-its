@@ -282,6 +282,22 @@ class TaskTest extends TestCase
     /**
      * @test
      */
+    public function the_at_sign_is_trimmed_if_present()
+    {
+        $this->actingAs($this->user);
+        $assignee = factory(User::class)->create();
+        $task = factory(Task::class)->make();
+        $task = $this->project->newTask($task);
+
+        $response = $this->text("assign $task->code @$assignee->name")->user($this->user)->team($this->team)->send('/t');
+
+        $response->assertSuccessful();
+        $response->assertSee("`$task->code` is assigned to $assignee->name now.");
+    }
+
+    /**
+     * @test
+     */
     public function must_have_arguments_to_assign_task()
     {
         $response = $this->text("assign")->user($this->user)->team($this->team)->send('/t');

@@ -129,7 +129,7 @@ class TaskController extends MattermostController
             return $this->response("Task `$code` does not exist.");
         }
 
-        $user = User::withName($this->args[1])->first();
+        $user = User::withName(trim($this->args[1],'@'))->first();
 
         if (!$user)
         {
