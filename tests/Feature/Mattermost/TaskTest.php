@@ -262,4 +262,72 @@ class TaskTest extends TestCase
         $response->assertSuccessful();
         $response->assertSee("does not exist");
     }
+
+    /**
+     * @test
+     */
+    public function can_assign_task()
+    {
+        $this->actingAs($this->user);
+        $assignee = factory(User::class)->create();
+        $task = factory(Task::class)->make();
+        $task = $this->project->newTask($task);
+
+        $response = $this->text("assign $task->code $assignee->name")->user($this->user)->team($this->team)->send('/t');
+
+        $response->assertSuccessful();
+        $response->assertSee("`$task->code` is assigned to $assignee->name now.");
+    }
+
+    /**
+     * @test
+     */
+    public function must_have_arguments_to_assign_task()
+    {
+        $response = $this->text("assign")->user($this->user)->team($this->team)->send('/t');
+
+        $response->assertSuccessful();
+        $response->assertSee("Usage");
+    }
+
+    /**
+     * @test
+     */
+    public function must_have_two_arguments_to_assign_task()
+    {
+        $response = $this->text("assign KEKMEISTARS-42")->user($this->user)->team($this->team)->send('/t');
+
+        $response->assertSuccessful();
+        $response->assertSee("Usage");
+    }
+
+    /**
+     * @test
+     */
+    public function task_must_exist_before_being_assigned()
+    {
+        $response = $this->text("assign KEKMEISTARS-42 $this->user->name")->user($this->user)->team($this->team)->send('/t');
+
+        $response->assertSuccessful();
+        $response->assertSee("`KEKMEISTARS-42` does not exist");
+    }
+
+    /**
+     * @test
+     */
+    public function can_assign_to_user_that_does_not_exist()
+    {
+        $this->actingAs($this->user);
+        $assignee = factory(User::class)->make();
+        $task = factory(Task::class)->make();
+        $task = $this->project->newTask($task);
+
+        $response = $this->text("assign $task->code $assignee->name")->user($this->user)->team($this->team)->send('/t');
+
+        $response->assertSuccessful();
+        $response->assertSee("`$task->code` is assigned to $assignee->name now.");
+        $this->assertDatabaseHas('users', [
+            'name' => $assignee->name
+        ]);
+    }
 }

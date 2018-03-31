@@ -42,4 +42,14 @@ class User extends Authenticatable
     {
         return $query->where('mm_id', $mm_id);
     }
+
+    /**
+     * @param Builder $query
+     * @param $mm_id
+     * @return Builder
+     */
+    public function scopeWithName(Builder $query, $name)
+    {
+        return $query->where('name', $name);
+    }
 }

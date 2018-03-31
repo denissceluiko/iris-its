@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Mattermost;
 
 use App\Team;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -111,6 +112,34 @@ class TaskController extends MattermostController
         $task->update();
 
         return $this->response("`$task->code` is now assigned to you.");
+    }
+
+    public function optionAssign()
+    {
+        if (count($this->args) < 2)
+        {
+            return $this->usage("`$this->command assign task_code user_name` E.g. `$this->command assign NYP-42 john.smith`");
+        }
+
+        $code = $this->args[0];
+        $task = $this->team->tasks()->withCode($code)->first();
+
+        if (!$task)
+        {
+            return $this->response("Task `$code` does not exist.");
+        }
+
+        $user = User::withName($this->args[1])->first();
+
+        if (!$user)
+        {
+            $user = User::create(['name' =>$this->args[1]]);
+        }
+
+        $task->assign($user);
+
+        return $this->response("`$code` is assigned to $user->name now.");
+
     }
 
     public function optionDrop()

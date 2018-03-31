@@ -44,4 +44,31 @@ class MiddlewareTest extends TestCase
             'mm_id' => $user->mm_id
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function finds_user_account_by_name_and_adds_mm_id()
+    {
+        $user = factory(User::class)->make();
+        $mm_id = $user->mm_id;
+        $user->mm_id = null;
+        $user->save();
+
+        $this->assertDatabaseHas('users', [
+            'name' => $user->name,
+            'mm_id' => null,
+            'id' => $user->id,
+        ]);
+
+        $user->mm_id = $mm_id;
+
+        $this->user($user)->send('/team');
+
+        $this->assertDatabaseHas('users', [
+            'name' => $user->name,
+            'mm_id' => $user->mm_id,
+            'id' => $user->id,
+        ]);
+    }
 }

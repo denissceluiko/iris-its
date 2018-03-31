@@ -51,6 +51,12 @@ class Task extends Model
         $this->save();
     }
 
+    public function assign(User $user)
+    {
+        $this->assignee_id = $user->id;
+        $this->save();
+    }
+
     public function drop()
     {
         $this->assignee_id = null;
