@@ -122,6 +122,7 @@ class TaskController extends MattermostController
         }
 
         $code = $this->args[0];
+        $name = trim($this->args[1], '@');
         $task = $this->team->tasks()->withCode($code)->first();
 
         if (!$task)
@@ -129,11 +130,11 @@ class TaskController extends MattermostController
             return $this->response("Task `$code` does not exist.");
         }
 
-        $user = User::withName(trim($this->args[1],'@'))->first();
+        $user = User::withName($name)->first();
 
         if (!$user)
         {
-            $user = User::create(['name' =>$this->args[1]]);
+            $user = User::create(['name' => $name]);
         }
 
         $task->assign($user);

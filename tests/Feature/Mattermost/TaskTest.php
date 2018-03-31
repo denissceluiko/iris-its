@@ -293,6 +293,7 @@ class TaskTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertSee("`$task->code` is assigned to $assignee->name now.");
+        $response->assertDontSee("@");
     }
 
     /**
