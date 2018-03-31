@@ -50,6 +50,13 @@ class MattermostController extends Controller
     protected $args;
 
     /**
+     * Contains aliases of options. Defined by children, resolved ny router.
+     * Syntax - ['name1' => 'option1', 'name2' => 'option1', 'alias' => 'option2']
+     * @var array
+     */
+    protected $aliases = [];
+
+    /**
      * View used as the help message.
      * Must be overridden by children.
      *
@@ -89,9 +96,21 @@ class MattermostController extends Controller
         {
             $method = 'option'.$this->option;
 
+            // Check primary
             if (method_exists($this, $method))
             {
                 return $this->$method($this->request);
+            }
+
+            // Check alias
+            if (isset($this->aliases[$this->option]))
+            {
+                $method = 'option'.$this->aliases[$this->option];
+
+                if (method_exists($this, $method))
+                {
+                    return $this->$method($this->request);
+                }
             }
         }
 

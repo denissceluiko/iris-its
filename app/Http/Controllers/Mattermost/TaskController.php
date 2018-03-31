@@ -9,9 +9,20 @@ use Illuminate\Support\Facades\Auth;
 class TaskController extends MattermostController
 {
     /**
+     * Model of the team project is associated with.
+     *
      * @var Team
      */
     protected $team;
+
+    protected $aliases = [
+        'add' => 'new',
+        'create' => 'new',
+        'mine' => 'my',
+        'get' => 'take',
+        'from' => 'list',
+        'in' => 'list',
+    ];
 
     protected $defaultView = 'mattermost.task.help';
 

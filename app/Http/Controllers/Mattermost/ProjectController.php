@@ -14,6 +14,11 @@ class ProjectController extends MattermostController
      */
     protected $team;
 
+    protected $aliases = [
+        'add' => 'new',
+        'create' => 'new',
+    ];
+
     protected $defaultView = 'mattermost.project.help';
 
     /**
@@ -58,16 +63,6 @@ class ProjectController extends MattermostController
         $this->team->projects()->create(compact('name', 'code', 'next_task_number'));
 
         return $this->response("Project $name created! Use `/t new $code` to add a new task.");
-    }
-
-    public function optionAdd()
-    {
-        return $this->optionNew();
-    }
-
-    public function optionCreate()
-    {
-        return $this->optionNew();
     }
 
     public function optionList()
