@@ -37,6 +37,11 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
+        'mattermost' => [
+             \App\Http\Middleware\Mattermost\Token::class,
+             \App\Http\Middleware\MattermostUser::class,
+        ],
+
         'api' => [
             'throttle:60,1',
             'bindings',
@@ -58,6 +63,5 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'mattermost' => \App\Http\Middleware\MattermostUser::class,
     ];
 }

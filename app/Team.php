@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Mattermost\Token;
 use Illuminate\Database\Eloquent\Model;
 
 class Team extends Model
@@ -16,6 +17,11 @@ class Team extends Model
     public function tasks()
     {
         return $this->hasManyThrough(Task::class, Project::class);
+    }
+
+    public function tokens()
+    {
+        return $this->hasMany(Token::class);
     }
 
     /**
