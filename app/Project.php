@@ -27,7 +27,8 @@ class Project extends Model
     public function newTask($params)
     {
         $params = is_a($params, Task::class) ? $params->toArray() : $params;
-        if (!array_key_exists('name', $params)) return null;
+        if (!array_key_exists('name', $params))
+            return null;
 
         $args = [
             'name' => $params['name'],

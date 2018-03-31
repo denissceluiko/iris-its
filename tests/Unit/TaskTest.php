@@ -80,7 +80,7 @@ class TaskTest extends TestCase
     {
         $task = $this->project->newTask(factory(Task::class)->make());
 
-        $found = Task::withCode($task->code)->first();
+        $found = $this->project->tasks()->withCode($task->code)->first();
 
         $this->assertEquals($task->code, $found->code);
     }

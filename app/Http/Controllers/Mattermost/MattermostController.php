@@ -125,7 +125,6 @@ class MattermostController extends Controller
      * Possibilities:
      * response('view.name')
      * response(['key' => 'value'], 'view.name')
-     * response(['key' => 'value'])
      * response('Text')
      *
      * @param array|string $data
@@ -155,10 +154,6 @@ class MattermostController extends Controller
         if ($view && is_array($data))
         {
             $message = View::make($view, $data)->render();
-        }
-        elseif (is_array($data))
-        {
-            $message = json_encode($data);
         }
         else
         {
