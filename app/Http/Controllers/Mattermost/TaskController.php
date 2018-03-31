@@ -154,7 +154,7 @@ class TaskController extends MattermostController
             }
             else
             {
-                return $this->response('mattemost.task.status');
+                return $this->response('mattermost.task.status');
             }
         }
 
