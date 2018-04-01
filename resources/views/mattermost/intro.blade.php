@@ -22,6 +22,7 @@ After adding all the tasks we can see a list of them by typing
 > `{{ $mm->getCommand() }} list NYP`
 
 which will output a table like
+
 | Code    | Name              | Status | Assigned to | Created By | Deadline |
 | :------ | :---------------- | ------ | ----------- | ---------- | -------: |
 | NYP-1   | Invite guests     | New    | your.name   | your.name  |  -       |
@@ -35,6 +36,7 @@ It's hard to have a party by yourself, let's start inviting guests:
 > `{{ $mm->getCommand() }} start NYP-1`
 
 If you try `{{ $mm->getCommand() }} list NYP` it will show `NYP-1` as
+
 | Code    | Name              | Status      | Assigned to | Created By | Deadline |
 | :------ | :---------------- | ----------- | ----------- | ---------- | -------: |
 | NYP-1   | Invite guests     | In progress | your.name   | your.name  |  -       |
@@ -44,6 +46,7 @@ You've invited John and Megan both are very excited about the party and want to 
 > `{{ $mm->getCommand() }} assign NYP-2 @megan.whales`
 
 And they're now responsible for these tasks! `{{ $mm->getCommand() }} list NYP` will now show us:
+
 | Code    | Name              | Status      | Assigned to  | Created By | Deadline |
 | :------ | :---------------- | ----------- | ------------ | ---------- | -------: |
 | NYP-1   | Invite guests     | In progress | your.name    | your.name  |  -       |
@@ -56,6 +59,7 @@ After you've sent all the invitations you'd like to set `ITS-1` to _Done_, do it
 
 Next you start working on buying presents `{{ $mm->getCommand() }} start NYP-4`
 While task list `{{ $mm->getCommand() }} list NYP` will now show us:
+
 | Code    | Name              | Status      | Assigned to  | Created By | Deadline |
 | :------ | :---------------- | ----------- | ------------ | ---------- | -------: |
 | NYP-1   | Invite guests     | Done        | your.name    | your.name  |  -       |
