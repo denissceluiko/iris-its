@@ -55,7 +55,7 @@ class MattermostCreateTeam extends Command
             $this->info("Team $domain created.");
             if ($this->confirm('Would you like to add security tokens?'))
             {
-                $this->call('team:config', ['team_domain' => $domain]);
+                $this->call('team:config', ['team_name' => $domain]);
             }
         }
 
