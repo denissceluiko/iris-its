@@ -19,11 +19,15 @@ class TeamTest extends TestCase
     public function can_be_inited()
     {
         $team = factory(Team::class)->make();
+        $mm_id = $team->mm_id;
+        $team->mm_id = null;
+        $team->save();
+        $team->mm_id = $mm_id;
 
         $response = $this->text('init')->team($team)->send('/team');
 
         $response->assertSuccessful();
-        $response->assertJsonFragment(['text' => "Team `$team->mm_domain` has been initialized."]);
+        $response->assertSee("`$team->mm_domain` initialization has been finalized");
     }
 
     /**
@@ -36,7 +40,7 @@ class TeamTest extends TestCase
         $response = $this->text('init')->team($team)->send('/team');
 
         $response->assertSuccessful();
-        $response->assertJsonFragment(['text' => "Team `$team->mm_domain` already exists."]);
+        $response->assertSee("`$team->mm_domain` is already initialized.");
     }
 
     /**

@@ -16,7 +16,7 @@ class TeamController extends MattermostController
         $team = Team::fromMattermost($this->request->team_id)->first();
         if (!$team) {
 
-            $team = Team::where('mm_domain'. $this->request->team_name)->first();
+            $team = Team::where('mm_domain', $this->request->team_domain)->first();
             $team->mm_id = $this->request->team_id;
             $team->save();
 

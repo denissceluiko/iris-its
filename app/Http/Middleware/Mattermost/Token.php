@@ -17,13 +17,14 @@ class Token
     {
         if ($request->has('token') && $request->has('team_domain'))
         {
-            $token = Token::find($request->token);
+            $token = \App\Mattermost\Token::find($request->token);
 
-            if ($token && $token->team()->mm_domain == $request->team_domain)
+            if ($token && $token->team->mm_domain == $request->team_domain)
             {
                 return $next($request);
             }
         }
-        return response()->setStatusCode(403);
+
+        return response('Forbidden', 403);
     }
 }
