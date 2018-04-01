@@ -2,11 +2,12 @@
 @section('content')
 Use `{{ $mm->getCommand() }}` with following options:
 
-| Option  | Arguments  | Example             | Usage |
-| ------- | ---------- | ------------------- | ------ |
-| help    | -          | {{ $mm->getCommand() }} help | Display this message
-| new     | project_code project_name | {{ $mm->getCommand() }} new NYP New Year's party | Create a new project
-| list    | -          | {{ $mm->getCommand() }} list | List all team's projects
+| Option  | Arguments                 | Example                                            | Usage                                                        | Aliases     |
+| ------- | ------------------------- | -------------------------------------------------- | ------------------------------------------------------------ | ----------- |
+| help    | -                         | {{ $mm->getCommand() }} help                       | Displays this message                                        | -           |
+| list    | -                         | {{ $mm->getCommand() }} list NYP                   | Lists all team's projects.                                   | -           |
+| new     | project_code project_name | {{ $mm->getCommand() }} new NYP New Year's party   | Creates a new project.                                       | add, create |
 
+Option's alias is an alternative word you can use to invoke the option. E.g., `{{ $mm->getCommand() }} new` and `{{ $mm->getCommand() }} add` both cen be used to create a new project.
 For example `{{ $mm->getCommand() }} help` displays this message.
 @endsection

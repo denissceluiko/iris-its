@@ -360,4 +360,17 @@ class TaskTest extends TestCase
         $response->assertSee($this->team->mm_domain);
         $response->assertSee('/t');
     }
+
+
+    /**
+     * @test
+     */
+    public function can_see_help()
+    {
+        $response = $this->text("help")->user($this->user)->team($this->team)->send('/t');
+
+        $response->assertSuccessful();
+        $response->assertSee("with following options");
+        $response->assertSee('/t');
+    }
 }
