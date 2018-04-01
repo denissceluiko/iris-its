@@ -347,4 +347,15 @@ class TaskTest extends TestCase
             'name' => $assignee->name
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function can_see_intro()
+    {
+        $response = $this->text("intro")->user($this->user)->team($this->team)->send('/t');
+
+        $response->assertSuccessful();
+        $response->assertSee("Short intro into Mattermost ITS");
+    }
 }

@@ -168,6 +168,11 @@ class TaskController extends MattermostController
         return $this->response("`$task->code` is now free from you :D");
     }
 
+    public function optionIntro()
+    {
+        return $this->response(['team' => $this->team],'mattermost.intro');
+    }
+
     /**
      * Changes status of a task.
      * Uses aliases to differentiate between actions.
