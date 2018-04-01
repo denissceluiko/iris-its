@@ -17,6 +17,6 @@ Use `{{ $mm->getCommand() }}` with following options:
 | stop    | task_code                 | {{ $mm->getCommand() }} stop NYP-42                | Changes task's status to _On hold_.                          | -           |
 | take    | task_code                 | {{ $mm->getCommand() }} take NYP-42                | Assigns task to you.                                         | get         |
 
-Option's alias is an alternative word you can use to invoke the option. E.g., `{{ $mm->getCommand() }} new` and `{{ $mm->getCommand() }} add` both cen be used to create a new task.
-For example `{{ $mm->getCommand() }} help` displays this message.
+Option's alias is an alternative word you can use to invoke the option. E.g., `{{ $mm->getCommand() }} new` and `{{ $mm->getCommand() }} add` both can be used to create a new task.
+For example use `{{ $mm->getCommand() }} help` to display this message.
 @endsection

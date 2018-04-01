@@ -8,6 +8,6 @@ Use `{{ $mm->getCommand() }}` with following options:
 | list    | -                         | {{ $mm->getCommand() }} list NYP                   | Lists all team's projects.                                   | -           |
 | new     | project_code project_name | {{ $mm->getCommand() }} new NYP New Year's party   | Creates a new project.                                       | add, create |
 
-Option's alias is an alternative word you can use to invoke the option. E.g., `{{ $mm->getCommand() }} new` and `{{ $mm->getCommand() }} add` both cen be used to create a new project.
-For example `{{ $mm->getCommand() }} help` displays this message.
+Option's alias is an alternative word you can use to invoke the option. E.g., `{{ $mm->getCommand() }} new` and `{{ $mm->getCommand() }} add` both can be used to create a new project.
+For example use `{{ $mm->getCommand() }} help` to display this message.
 @endsection
