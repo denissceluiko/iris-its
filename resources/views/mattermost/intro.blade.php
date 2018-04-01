@@ -74,8 +74,8 @@ The _take_ option changes the the assignee to you.
 You now have two tasks assigned in this project and maybe more in other ones, can you list all _your_ tasks? Of course:
 > `{{ $mm->getCommand() }} my`
 
-Will give you a table of all your tasks.
-These are the basic commands you will be using, more can be found `/{{ $mm->getCommand() }} help` and `/p help`
+Will give you a table of all your tasks. As you've noticed, manipulations are mostly done through codes be it project code or task code to maximize speed. Experience shows that 2-3 letter codes are the best especially if they're an abbreviation of the project's name.
+These are the basic commands you will be using, more can be found `{{ $mm->getCommand() }} help` and `/p help`.
 
 #### Command structure
 `/command option argument1 argument2 ...`
