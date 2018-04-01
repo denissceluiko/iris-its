@@ -357,5 +357,7 @@ class TaskTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertSee("Short intro into Mattermost ITS");
+        $response->assertSee($this->team->mm_domain);
+        $response->assertSee('/t');
     }
 }

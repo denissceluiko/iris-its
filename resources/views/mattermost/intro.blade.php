@@ -2,7 +2,7 @@
 ITS - issue tracking system.
 Primary purpose of this its (as any other) is to make project management easier and make it available using Mattermost slash commands.
 #### Basic workflow
-Structure is simple - there are teams, currently you're in {{ $team->name }}. Teams have projects. Projects have tasks. That's it.
+Structure is simple - there are teams, currently you're in {{ $team->mm_domain }}. Teams have projects. Projects have tasks. That's it.
 Let's say we want to create a _project_ called `New Year's party`. In this ITS all _projects_ have _codes_. Therefore let's give our party's project a _code_ - `NYP`.
 > `/p new NYP New Year's party`
 
@@ -11,7 +11,7 @@ Will create this project for us, we can now see it project in the project list:
 
 As we now have a party preparations to do, let's make a list of _tasks_.
 We need to invite guests, right?
-> `{{ $mm->getCommand() }} new NYP `
+> `{{ $mm->getCommand() }} new NYP Invite guests`
 
 This will create a task in `NYP` project.
 > `{{ $mm->getCommand() }} new NYP Buy snacks`
@@ -41,7 +41,7 @@ If you try `{{ $mm->getCommand() }} list NYP` it will show `NYP-1` as
 | :------ | :---------------- | ----------- | ----------- | ---------- | -------: |
 | NYP-1   | Invite guests     | In progress | your.name   | your.name  |  -       |
 
-You've invited John and Megan both are very excited about the party and want to help. John is keen on decorating while Megan is on snacks.
+You've invited John and Megan, both are very excited about the party and want to help. John is keen on decorating while Megan is on snacks.
 > `{{ $mm->getCommand() }} assign NYP-3 @john.smith`
 > `{{ $mm->getCommand() }} assign NYP-2 @megan.whales`
 
@@ -74,7 +74,8 @@ The _take_ option changes the the assignee to you.
 You now have two tasks assigned in this project and maybe more in other ones, can you list all _your_ tasks? Of course:
 > `{{ $mm->getCommand() }} my`
 
-Will give you a table of all your tasks. As you've noticed, manipulations are mostly done through codes be it project code or task code to maximize speed. Experience shows that 2-3 letter codes are the best especially if they're an abbreviation of the project's name.
+Will give you a table of all your tasks.
+As you've noticed, manipulations are mostly done through codes be it project code or task code to maximize speed. Experience shows that 2-3 letter codes are the best especially if they're an abbreviation of the project's name.
 These are the basic commands you will be using, more can be found `{{ $mm->getCommand() }} help` and `/p help`.
 
 #### Command structure
