@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Mattermost;
 
 use App\Http\Controllers\Controller;
+use App\Mattermost\Attachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
@@ -57,6 +58,13 @@ class MattermostController extends Controller
     protected $aliases = [];
 
     /**
+     * Contains attachments for the message.
+     *
+     * @var array
+     */
+    protected $attachments = [];
+
+    /**
      * View used as the help message.
      * Must be overridden by children.
      *
@@ -83,6 +91,18 @@ class MattermostController extends Controller
         $this->request = $request;
         $this->command = $request->command;
         $this->splitText();
+    }
+
+    /**
+     * Add an attachment to the response.
+     *
+     * @param Attachment $attachment
+     * @return $this
+     */
+    public function attach(Attachment $attachment)
+    {
+        $this->attachments[] = $attachment;
+        return $this;
     }
 
     /**
@@ -182,6 +202,7 @@ class MattermostController extends Controller
         return response()->json([
             'response_type' => $type,
             'text' => $message,
+            'attachments' => empty($this->attachments) ? [] : $this->attachments,
         ])->setStatusCode($this->statusCode);
     }
 

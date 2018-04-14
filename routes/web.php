@@ -17,4 +17,6 @@ Route::group(['namespace' => 'Mattermost', 'middleware' => ['mattermost']], func
     Route::post('/team', 'TeamController@router');
     Route::post('/pr', 'ProjectController@router');
     Route::post('/t', 'TaskController@router');
+
+    Route::post('/poll', 'PollController@router');
 });
