@@ -199,11 +199,20 @@ class MattermostController extends Controller
             $message = $data;
         }
 
-        return response()->json([
+        $response = [
             'response_type' => $type,
-            'text' => $message,
-            'attachments' => empty($this->attachments) ? [] : $this->attachments,
-        ])->setStatusCode($this->statusCode);
+        ];
+
+        if (!empty($this->attachments))
+        {
+            $response['attachments'] = $this->attachments;
+        }
+        else
+        {
+            $response['text'] = $message;
+        }
+
+        return response()->json($response)->setStatusCode($this->statusCode);
     }
 
     /**
