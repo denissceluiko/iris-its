@@ -63,6 +63,7 @@ class Attachment extends Model
     public function color($code)
     {
         $this->payload['color'] = $code;
+        return $this;
     }
 
     /**
