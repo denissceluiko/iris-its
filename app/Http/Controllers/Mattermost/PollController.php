@@ -16,7 +16,7 @@ class PollController extends MattermostController
     {
         $attachment = new Attachment();
 
-        $attachment->title('Example poll')->fallback('Empty fallback.');
+        $attachment->title('Example poll')->color('#197714')->fallback('Empty fallback.');
 
         $attachment->action('Option 1', [
             'pollid' => 'testpoll',

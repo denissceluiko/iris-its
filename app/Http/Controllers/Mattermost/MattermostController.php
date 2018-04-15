@@ -215,7 +215,7 @@ class MattermostController extends Controller
 
         if (App::environment(['local', 'staging']))
         {
-            Log::debug($response);
+            Log::debug(json_encode($response));
         }
 
         return response()->json($response)->setStatusCode($this->statusCode);
