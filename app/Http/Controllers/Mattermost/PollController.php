@@ -15,7 +15,21 @@ class PollController extends MattermostController
     public function optionNew()
     {
         $attachment = new Attachment();
-        $attachment->color('#ff0000')->text('Kektachment text')->fallback('kektachment');
-        return $this->attach($attachment)->response('');
+
+        $attachment->title('Example poll')->fallback('Empty fallback.');
+
+        $attachment->action('Option 1', [
+            'pollid' => 'testpoll',
+            'option' => 'option1',
+        ], env('APP_URL').'/poll/action');
+        $attachment->action('Option 2', [
+            'pollid' => 'testpoll',
+            'option' => 'option2',
+        ], env('APP_URL').'/poll/action');
+        $attachment->action('Option 3', [
+            'pollid' => 'testpoll',
+            'option' => 'option3',
+        ], env('APP_URL').'/poll/action');
+        return $this->attach($attachment)->response();
     }
 }

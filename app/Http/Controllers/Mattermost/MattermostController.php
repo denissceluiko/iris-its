@@ -173,7 +173,7 @@ class MattermostController extends Controller
      * @param string $type
      * @return \Illuminate\Http\JsonResponse
      */
-    public function response($data, $view = null, $type = 'ephemeral')
+    public function response($data = null, $view = null, $type = 'ephemeral')
     {
         $view = func_num_args() == 1 && View::exists($data) ? $data : (View::exists($view) ? $view : null);
 
@@ -209,10 +209,9 @@ class MattermostController extends Controller
         {
             $response['attachments'] = $this->attachments;
         }
-        else
-        {
-            $response['text'] = $message;
-        }
+
+        $response['text'] = $message;
+
 
         if (App::environment(['local', 'staging']))
         {

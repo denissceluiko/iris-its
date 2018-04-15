@@ -27,10 +27,12 @@ class Attachment extends Model
     }
 
     /**
-     * @param $name
-     * @param $context
-     * @param $url
-     * @return $this
+     * Add an action button.
+     *
+     * @param string $name
+     * @param array $context
+     * @param string $url
+     * @return Attachment
      */
     public function action($name, $context, $url)
     {
@@ -44,10 +46,12 @@ class Attachment extends Model
     }
 
     /**
-     * @param $name
-     * @param null $icon
-     * @param null $link
-     * @return $this
+     * Add an author.
+     *
+     * @param string $name
+     * @param string|null $icon
+     * @param string|null $link
+     * @return Attachment
      */
     public function author($name, $icon = null, $link = null)
     {
@@ -58,7 +62,9 @@ class Attachment extends Model
     }
 
     /**
-     * @param $code
+     * Set color of the left border
+     * @param string $code
+     * @return Attachment
      */
     public function color($code)
     {
@@ -67,6 +73,8 @@ class Attachment extends Model
     }
 
     /**
+     * Returns attachment as an Mattermost ready array.
+     *
      * @return array
      */
     public function getPayload()
@@ -78,8 +86,10 @@ class Attachment extends Model
     }
 
     /**
-     * @param $value
-     * @return $this
+     * Add a fallback text.
+     *
+     * @param string $value
+     * @return Attachment
      */
     public function fallback($value)
     {
@@ -88,10 +98,12 @@ class Attachment extends Model
     }
 
     /**
-     * @param $title
-     * @param $value
+     * Adds a field to the attachment.
+     *
+     * @param string $title
+     * @param string $value
      * @param bool $isShort
-     * @return $this
+     * @return Attachment
      */
     public function field($title, $value, $isShort = false)
     {
@@ -104,8 +116,10 @@ class Attachment extends Model
     }
 
     /**
-     * @param $link
-     * @return $this
+     * Add an image to the attachment.
+     *
+     * @param string $link
+     * @return Attachment
      */
     public function image($link)
     {
@@ -114,8 +128,10 @@ class Attachment extends Model
     }
 
     /**
-     * @param $value
-     * @return $this
+     * Add text for the attachment.
+     *
+     * @param string $value
+     * @return Attachment
      */
     public function text($value)
     {
@@ -124,8 +140,10 @@ class Attachment extends Model
     }
 
     /**
-     * @param $value
-     * @return $this
+     * Add text that comes before the attachment.
+     *
+     * @param string $value
+     * @return Attachment
      */
     public function pretext($value)
     {
@@ -134,9 +152,11 @@ class Attachment extends Model
     }
 
     /**
-     * @param $title
-     * @param null $link
-     * @return $this
+     * Add title for the attachment.
+     *
+     * @param string $title
+     * @param string|null $link
+     * @return Attachment
      */
     public function title($title, $link = null)
     {
