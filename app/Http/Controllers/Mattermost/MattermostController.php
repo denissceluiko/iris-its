@@ -103,7 +103,7 @@ class MattermostController extends Controller
      */
     public function attach(Attachment $attachment)
     {
-        $this->attachments[] = $attachment;
+        $this->attachments[] = $attachment->getPayload();
         return $this;
     }
 
