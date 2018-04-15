@@ -15,5 +15,6 @@ class VerifyCsrfToken extends Middleware
         '/t',
         '/pr',
         '/team',
+        '/poll',
     ];
 }
