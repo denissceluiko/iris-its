@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Mattermost;
 use App\Http\Controllers\Controller;
 use App\Mattermost\Attachment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 
 class MattermostController extends Controller
@@ -210,6 +212,11 @@ class MattermostController extends Controller
         else
         {
             $response['text'] = $message;
+        }
+
+        if (App::environment(['local', 'staging']))
+        {
+            Log::debug($response);
         }
 
         return response()->json($response)->setStatusCode($this->statusCode);
